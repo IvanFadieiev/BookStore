@@ -28,17 +28,17 @@ public class BookRepositoryImpl implements BookRepository {
             transaction = session.beginTransaction();
             session.persist(book);
             transaction.commit();
+            return book;
         } catch (Exception e) {
             if (transaction != null) {
-                throw new RuntimeException("Can't get book " + book.getTitle() + " from DB");
+                transaction.rollback();
             }
-            transaction.rollback();
+            throw new RuntimeException("Can't save book " + book.getTitle() + " to DB");
         } finally {
             if (session != null) {
                 session.close();
             }
         }
-        return book;
     }
 
     @Override
