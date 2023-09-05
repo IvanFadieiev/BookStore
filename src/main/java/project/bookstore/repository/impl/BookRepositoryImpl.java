@@ -1,12 +1,12 @@
 package project.bookstore.repository.impl;
 
-import jakarta.persistence.Query;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import project.bookstore.exception.EntityNotFoundException;
 import project.bookstore.model.Book;
 import project.bookstore.repository.BookRepository;
 
@@ -42,12 +42,20 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
+    public Book getBookById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(Book.class, id);
+        } catch (Exception e) {
+            throw new EntityNotFoundException("Can't get book by provided id " + id);
+        }
+    }
+
+    @Override
     public List<Book> findAll() {
         try (Session session = sessionFactory.openSession()) {
-            Query query = session.createQuery("FROM Book", Book.class);
-            return query.getResultList();
+            return session.createQuery("FROM Book", Book.class).getResultList();
         } catch (Throwable e) {
-            throw new RuntimeException("Can't get all books from DB");
+            throw new EntityNotFoundException("Can't get all books from DB");
         }
     }
 }
