@@ -5,9 +5,9 @@ import project.bookstore.dto.BookDto;
 import project.bookstore.dto.CreateBookRequestDto;
 
 public interface BookService {
-    BookDto save(CreateBookRequestDto book);
+    BookDto create(CreateBookRequestDto book);
 
-    BookDto getBookById(Long id);
+    BookDto findById(Long id);
 
     List<BookDto> findAll();
 }

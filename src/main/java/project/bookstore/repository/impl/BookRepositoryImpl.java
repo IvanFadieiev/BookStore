@@ -1,11 +1,13 @@
 package project.bookstore.repository.impl;
 
 import java.util.List;
+import java.util.Optional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import project.bookstore.exception.DataProcessingException;
 import project.bookstore.exception.EntityNotFoundException;
 import project.bookstore.model.Book;
 import project.bookstore.repository.BookRepository;
@@ -33,7 +35,7 @@ public class BookRepositoryImpl implements BookRepository {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't save book " + book.getTitle() + " to DB");
+            throw new DataProcessingException("Can't save book " + book.getTitle() + " to DB");
         } finally {
             if (session != null) {
                 session.close();
@@ -42,9 +44,9 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public Book getBookById(Long id) {
+    public Optional<Book> findById(Long id) {
         try (Session session = sessionFactory.openSession()) {
-            return session.get(Book.class, id);
+            return Optional.ofNullable(session.get(Book.class, id));
         } catch (Exception e) {
             throw new EntityNotFoundException("Can't get book by provided id " + id);
         }

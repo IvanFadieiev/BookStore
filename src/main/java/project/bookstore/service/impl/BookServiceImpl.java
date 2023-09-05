@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.bookstore.dto.BookDto;
 import project.bookstore.dto.CreateBookRequestDto;
+import project.bookstore.exception.EntityNotFoundException;
 import project.bookstore.mapper.BookMapper;
 import project.bookstore.repository.BookRepository;
 import project.bookstore.service.BookService;
@@ -17,13 +18,15 @@ public class BookServiceImpl implements BookService {
     private final BookMapper bookMapper;
 
     @Override
-    public BookDto save(CreateBookRequestDto requestBookDto) {
+    public BookDto create(CreateBookRequestDto requestBookDto) {
         return bookMapper.toDto(bookRepository.save(bookMapper.toModel(requestBookDto)));
     }
 
     @Override
-    public BookDto getBookById(Long id) {
-        return bookMapper.toDto(bookRepository.getBookById(id));
+    public BookDto findById(Long id) {
+        return bookMapper.toDto(bookRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Book by provided id = " + id
+                        + " doesn't exists")));
     }
 
     @Override

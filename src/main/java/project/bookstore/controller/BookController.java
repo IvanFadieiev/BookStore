@@ -26,12 +26,12 @@ public class BookController {
 
     @GetMapping("/{id}")
     public BookDto getBookById(@PathVariable Long id) {
-        return bookService.getBookById(id);
+        return bookService.findById(id);
     }
 
     @PostMapping
     public BookDto createBook(@RequestBody CreateBookRequestDto bookDto) {
-        return bookService.save(bookDto);
+        return bookService.create(bookDto);
     }
 }
 
