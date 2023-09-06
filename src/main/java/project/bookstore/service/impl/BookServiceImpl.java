@@ -5,9 +5,10 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.bookstore.dto.BookDto;
-import project.bookstore.dto.CreateBookRequestDto;
+import project.bookstore.dto.BookRequestDto;
 import project.bookstore.exception.EntityNotFoundException;
 import project.bookstore.mapper.BookMapper;
+import project.bookstore.model.Book;
 import project.bookstore.repository.BookRepository;
 import project.bookstore.service.BookService;
 
@@ -18,7 +19,7 @@ public class BookServiceImpl implements BookService {
     private final BookMapper bookMapper;
 
     @Override
-    public BookDto create(CreateBookRequestDto requestBookDto) {
+    public BookDto create(BookRequestDto requestBookDto) {
         return bookMapper.toDto(bookRepository.save(bookMapper.toModel(requestBookDto)));
     }
 
@@ -27,6 +28,18 @@ public class BookServiceImpl implements BookService {
         return bookMapper.toDto(bookRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Book by provided id = " + id
                         + " doesn't exists")));
+    }
+
+    @Override
+    public BookDto update(Long id, BookRequestDto requestBookDto) {
+        Book updatedBook = bookMapper.toModel(requestBookDto);
+        updatedBook.setId(id);
+        return bookMapper.toDto(bookRepository.save(updatedBook));
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        bookRepository.deleteById(id);
     }
 
     @Override
