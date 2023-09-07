@@ -1,5 +1,6 @@
 package project.bookstore.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -34,13 +35,13 @@ public class BookController {
     }
 
     @PostMapping
-    public BookDto createBook(@RequestBody BookRequestDto bookDto) {
+    public BookDto createBook(@RequestBody @Valid BookRequestDto bookDto) {
         return bookService.create(bookDto);
     }
 
     @PutMapping("/{id}")
     public BookDto update(@PathVariable Long id,
-                          @RequestBody BookRequestDto bookDto) {
+                          @RequestBody @Valid BookRequestDto bookDto) {
         return bookService.update(id, bookDto);
     }
 
