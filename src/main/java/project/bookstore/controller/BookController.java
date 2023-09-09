@@ -3,7 +3,6 @@ package project.bookstore.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -48,7 +47,8 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Update a book by id", description = "Update existing book by specified id")
+    @Operation(summary = "Update a book by id", description =
+            "Update existing book by specified id")
     public BookDto update(@PathVariable Long id,
                           @RequestBody @Valid BookRequestDto bookDto) {
         return bookService.update(id, bookDto);
