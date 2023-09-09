@@ -1,6 +1,8 @@
 package project.bookstore.service;
 
 import java.util.List;
+
+import org.springframework.data.domain.Pageable;
 import project.bookstore.dto.BookDto;
 import project.bookstore.dto.BookRequestDto;
 
@@ -13,5 +15,5 @@ public interface BookService {
 
     void deleteById(Long id);
 
-    List<BookDto> findAll();
+    List<BookDto> findAll(Pageable pageable);
 }
