@@ -1,4 +1,4 @@
-package project.bookstore.dto;
+package project.bookstore.dto.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

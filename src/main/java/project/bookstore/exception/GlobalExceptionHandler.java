@@ -12,6 +12,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -19,18 +20,27 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
-             MethodArgumentNotValidException ex,
-             HttpHeaders headers,
-             HttpStatusCode status,
-             WebRequest request) {
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("status", HttpStatus.BAD_REQUEST);
+            MethodArgumentNotValidException ex,
+            HttpHeaders headers,
+            HttpStatusCode status,
+            WebRequest request) {
         List<String> errors = ex.getBindingResult().getAllErrors().stream()
                 .map(this::getErrorMessage)
                 .toList();
-        body.put("errors", errors);
-        return new ResponseEntity<>(body, headers, status);
+        Map<String, Object> errorMap = putToErrorMap(HttpStatus.BAD_REQUEST, errors);
+        return new ResponseEntity<>(errorMap, headers, status);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException ex) {
+        Map<String, Object> errorMap = putToErrorMap(HttpStatus.NOT_FOUND, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMap);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Object> handeRegistrationException(RegistrationException ex) {
+        Map<String, Object> errorMap = putToErrorMap(HttpStatus.CONFLICT, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMap);
     }
 
     private String getErrorMessage(ObjectError e) {
@@ -40,5 +50,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             return field + " " + message;
         }
         return e.getDefaultMessage();
+    }
+
+    private Map<String, Object> putToErrorMap(HttpStatus status, Object errors) {
+        Map<String, Object> errorMap = new LinkedHashMap<>();
+        errorMap.put("timestamp", LocalDateTime.now());
+        errorMap.put("status", status);
+        errorMap.put("erros", errors);
+        return errorMap;
     }
 }

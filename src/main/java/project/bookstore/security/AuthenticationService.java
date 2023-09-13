@@ -5,17 +5,19 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import project.bookstore.dto.UserLoginRequestDto;
-import project.bookstore.dto.UserLoginResponseDto;
+import project.bookstore.dto.user.UserLoginRequestDto;
+import project.bookstore.dto.user.UserLoginResponseDto;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-    private JwtUtil jwtUtil;
-    private AuthenticationManager manager;
-    public UserLoginResponseDto authenticate (UserLoginRequestDto request) {
+    private final JwtUtil jwtUtil;
+    private final AuthenticationManager manager;
+
+    public UserLoginResponseDto authenticate(UserLoginRequestDto request) {
         final Authentication authentication = manager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
+                new UsernamePasswordAuthenticationToken(request.getEmail(),
+                        request.getPassword())
         );
 
         String token = jwtUtil.generateToken(authentication.getName());

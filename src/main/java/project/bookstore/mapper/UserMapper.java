@@ -2,8 +2,8 @@ package project.bookstore.mapper;
 
 import org.mapstruct.Mapper;
 import project.bookstore.config.MapperConfiguration;
-import project.bookstore.dto.UserRegistrationResponseDto;
-import project.bookstore.dto.UserRegistrationRequestDto;
+import project.bookstore.dto.user.UserRegistrationRequestDto;
+import project.bookstore.dto.user.UserRegistrationResponseDto;
 import project.bookstore.model.User;
 
 @Mapper(config = MapperConfiguration.class)
