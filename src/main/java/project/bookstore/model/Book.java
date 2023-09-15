@@ -14,6 +14,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -44,5 +46,7 @@ public class Book {
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     Set<Category> categories = new HashSet<>();
 }

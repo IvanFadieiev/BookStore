@@ -1,0 +1,77 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-books-to-books-table
+      author: ivan
+      changes:
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: title
+                  value: Harry Potter
+              - column:
+                  name: author
+                  value: J.K. Rowling
+              - column:
+                  name: isbn
+                  value: 1111111111111
+              - column:
+                  name: price
+                  value: 1000
+              - column:
+                  name: description
+                  value: desc
+              - column:
+                  name: cover_image
+                  value: image
+              - column:
+                  name: is_deleted
+                  valueBoolean: false
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: title
+                  value: Black Swan
+              - column:
+                  name: author
+                  value: N.N. Taleb
+              - column:
+                  name: isbn
+                  value: 222222222222
+              - column:
+                  name: price
+                  value: 1100
+              - column:
+                  name: description
+                  value: desc
+              - column:
+                  name: cover_image
+                  value: image
+              - column:
+                  name: is_deleted
+                  valueBoolean: false
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: title
+                  value: The twelve caesars
+              - column:
+                  name: author
+                  value: Suetonius
+              - column:
+                  name: isbn
+                  value: 333333333333
+              - column:
+                  name: price
+                  value: 1200
+              - column:
+                  name: description
+                  value: desc
+              - column:
+                  name: cover_image
+                  value: image
+              - column:
+                  name: is_deleted
+                  valueBoolean: false

@@ -24,4 +24,11 @@ public class Category {
     private String description;
     @Column(nullable = false)
     private boolean isDeleted = false;
+
+    public Category() {
+    }
+
+    public Category(Long id) {
+        this.id = id;
+    }
 }

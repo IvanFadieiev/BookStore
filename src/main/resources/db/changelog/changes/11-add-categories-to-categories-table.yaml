@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-categories-to-categories-table
+      author: ivan
+      changes:
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: fantasy
+              - column:
+                  name: description
+                  value: fantasy stuff
+              - column:
+                  name: is_deleted
+                  valueBoolean: false
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: science pop
+              - column:
+                  name: description
+                  value: science stuff
+              - column:
+                  name: is_deleted
+                  valueBoolean: false
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: name
+                  value: history
+              - column:
+                  name: description
+                  value: history stuff
+              - column:
+                  name: is_deleted
+                  valueBoolean: false

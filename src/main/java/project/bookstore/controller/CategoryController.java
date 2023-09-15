@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import project.bookstore.dto.book.BookDto;
+import project.bookstore.dto.book.BookDtoWithoutCategoryIds;
 import project.bookstore.dto.category.CategoryDto;
 import project.bookstore.dto.category.CategoryRequestDto;
 import project.bookstore.repository.BookRepository;
+import project.bookstore.service.BookService;
 import project.bookstore.service.CategoryService;
 import java.util.List;
 
@@ -29,7 +31,7 @@ import java.util.List;
 @Tag(name = "Categories management", description = "Endpoints for managing categories")
 public class CategoryController {
     private final CategoryService categoryService;
-    private final BookRepository bookRepository;
+    private final BookService bookService;
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -51,8 +53,8 @@ public class CategoryController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(summary = "Get books by provided category id", description
             = "Get a list of all categories")
-    public List<BookDto> getBooksByCategoryId(@PathVariable Long id) {
-        return bookRepository.findAllByCategoryId(id);
+    public List<BookDtoWithoutCategoryIds> getBooksByCategoryId(@PathVariable Long id) {
+        return bookService.findAllByCategoryId(id);
     }
 
     @PostMapping
