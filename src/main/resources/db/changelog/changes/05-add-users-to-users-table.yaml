@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-users-to-users-table
+      author: ivan
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: aliceuser@mail.com
+              - column:
+                  name: password
+                  value: 11111111
+              - column:
+                  name: first_name
+                  value: alice
+              - column:
+                  name: last_name
+                  value: johnson
+              - column:
+                  name: shipping_address
+                  value: New York, 1
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: admin@mail.com
+              - column:
+                  name: password
+                  value: $2a$10$9.oEi8QbCM1jX3tY/xTIWOAl./h0AnnRk/TGsHzwNieuV9MV2Gf5q
+              - column:
+                  name: first_name
+                  value: admin
+              - column:
+                  name: last_name
+                  value: admin

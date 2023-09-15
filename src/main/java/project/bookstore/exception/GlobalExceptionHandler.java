@@ -20,10 +20,10 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
-             MethodArgumentNotValidException ex,
-             HttpHeaders headers,
-             HttpStatusCode status,
-             WebRequest request) {
+            MethodArgumentNotValidException ex,
+            HttpHeaders headers,
+            HttpStatusCode status,
+            WebRequest request) {
         List<String> errors = ex.getBindingResult().getAllErrors().stream()
                 .map(this::getErrorMessage)
                 .toList();
@@ -35,6 +35,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException ex) {
         Map<String, Object> errorMap = putToErrorMap(HttpStatus.NOT_FOUND, ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMap);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Object> handeRegistrationException(RegistrationException ex) {
+        Map<String, Object> errorMap = putToErrorMap(HttpStatus.CONFLICT, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMap);
     }
 
     private String getErrorMessage(ObjectError e) {
