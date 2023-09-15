@@ -1,5 +1,6 @@
 package project.bookstore.mapper;
 
+import java.util.stream.Collectors;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -11,13 +12,13 @@ import project.bookstore.dto.book.BookRequestDto;
 import project.bookstore.model.Book;
 import project.bookstore.model.Category;
 
-import java.util.stream.Collectors;
-
 @Mapper(config = MapperConfiguration.class)
 public interface BookMapper {
     BookDtoWithoutCategoryIds toDtoWithoutCategories(Book book);
+
     @Mapping(target = "categoriesId", ignore = true)
     BookDto toDto(Book book);
+
     @AfterMapping
     default void setCategoryIds(@MappingTarget BookDto bookDto, Book book) {
         if (book.getCategories() != null) {
@@ -29,6 +30,7 @@ public interface BookMapper {
 
     @Mapping(target = "categories", ignore = true)
     Book toModel(BookRequestDto bookDto);
+
     @AfterMapping
     default void setCategories(@MappingTarget Book book, BookRequestDto requestDto) {
         if (requestDto.getCategoriesIds() != null) {

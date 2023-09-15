@@ -3,6 +3,7 @@ package project.bookstore.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -16,14 +17,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import project.bookstore.dto.book.BookDto;
 import project.bookstore.dto.book.BookDtoWithoutCategoryIds;
 import project.bookstore.dto.category.CategoryDto;
 import project.bookstore.dto.category.CategoryRequestDto;
-import project.bookstore.repository.BookRepository;
 import project.bookstore.service.BookService;
 import project.bookstore.service.CategoryService;
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -61,7 +59,7 @@ public class CategoryController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Create a new category", description
             = "Create a new category")
-    public CategoryDto createCategory(@RequestBody @Valid CategoryRequestDto categoryRequestDto){
+    public CategoryDto createCategory(@RequestBody @Valid CategoryRequestDto categoryRequestDto) {
         return categoryService.save(categoryRequestDto);
     }
 
