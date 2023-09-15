@@ -22,7 +22,6 @@ import project.bookstore.security.JwtAuthentificationFilter;
 @Configuration
 @RequiredArgsConstructor
 @EnableMethodSecurity
-@EnableWebSecurity
 public class SecurityConfig {
     private final UserDetailsService userDetailsService;
     private final JwtAuthentificationFilter jwtAuthentificationFilter;
