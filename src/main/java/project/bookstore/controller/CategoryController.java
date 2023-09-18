@@ -32,7 +32,7 @@ public class CategoryController {
     private final BookService bookService;
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @Operation(summary = "Get a category by id", description
             = "Get a category by specified id")
     public CategoryDto getCategoryById(@PathVariable Long id) {
@@ -40,7 +40,7 @@ public class CategoryController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @Operation(summary = "Get all categories", description
             = "Get a list of all categories")
     public List<CategoryDto> getAll(Pageable pageable) {
@@ -48,7 +48,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}/books")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @Operation(summary = "Get books by provided category id", description
             = "Get a list of all categories")
     public List<BookDtoWithoutCategoryIds> getBooksByCategoryId(@PathVariable Long id) {
