@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-books-to-book-categories-table
+      author: ivan fadieiev
+      changes:
+        - insert:
+            tableName: book_categories
+            columns:
+              - column:
+                  name: book_id
+                  valueComputed: (SELECT id FROM books WHERE title = 'Harry Potter')
+              - column:
+                  name: category_id
+                  valueComputed: (SELECT id FROM categories WHERE name = 'fantasy')
+        - insert:
+            tableName: book_categories
+            columns:
+                - column:
+                    name: book_id
+                    valueComputed: (SELECT id FROM books WHERE title = 'The twelve caesars')
+                - column:
+                    name: category_id
+                    valueComputed: (SELECT id FROM categories WHERE name = 'history')
+        - insert:
+            tableName: book_categories
+            columns:
+                - column:
+                    name: book_id
+                    valueComputed: (SELECT id FROM books WHERE title = 'Black Swan')
+                - column:
+                    name: category_id
+                    valueComputed: (SELECT id FROM categories WHERE name = 'science pop')

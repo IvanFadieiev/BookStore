@@ -48,7 +48,7 @@ public class User implements UserDetails {
     @ToString.Exclude
     private Set<Role> roles;
     @Column(nullable = false)
-    private boolean isDeleted;
+    private boolean isDeleted = false;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
