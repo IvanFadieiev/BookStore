@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: add-books-to-book-categories-table
-      author: ivan
+      author: ivan fadieiev
       changes:
         - insert:
             tableName: book_categories

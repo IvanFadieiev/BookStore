@@ -21,5 +21,5 @@ databaseChangeLog:
       file: db/changelog/changes/10-add-books-to-books-table.yaml
   - include:
       file: db/changelog/changes/11-add-categories-to-categories-table.yaml
-#  - include:
-#      file: db/changelog/changes/12-add-books-to-book-categories-table.yaml
+  - include:
+      file: db/changelog/changes/12-add-books-to-book-categories-table.yaml
