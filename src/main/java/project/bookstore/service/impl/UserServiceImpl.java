@@ -4,15 +4,19 @@ import static project.bookstore.roles.RoleName.ROLE_USER;
 
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import project.bookstore.dto.user.UserRegistrationRequestDto;
 import project.bookstore.dto.user.UserRegistrationResponseDto;
+import project.bookstore.exception.EntityNotFoundException;
 import project.bookstore.exception.RegistrationException;
 import project.bookstore.mapper.UserMapper;
 import project.bookstore.model.Role;
+import project.bookstore.model.ShoppingCart;
 import project.bookstore.model.User;
 import project.bookstore.repository.RoleRepository;
+import project.bookstore.repository.ShoppingCartRepository;
 import project.bookstore.repository.UserRepository;
 import project.bookstore.service.UserService;
 
@@ -23,6 +27,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
     private final RoleRepository roleRepository;
+    private final ShoppingCartRepository shoppingCartRepository;
 
     @Override
     public UserRegistrationResponseDto register(UserRegistrationRequestDto requestDto)
@@ -35,6 +40,21 @@ public class UserServiceImpl implements UserService {
         Role role = roleRepository.getRoleByName(ROLE_USER);
         user.setRoles(Set.of(role));
         User savedUser = userRepository.save(user);
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setUser(savedUser);
+        shoppingCartRepository.save(shoppingCart);
         return userMapper.toDto(savedUser);
+    }
+
+    @Override
+    public User getAuthentificatedUser() {
+        return userRepository
+                .findByEmail(SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getName())
+                .orElseThrow(()
+                        -> new EntityNotFoundException("User with "
+                        + "provided name doesn't exists"));
     }
 }
