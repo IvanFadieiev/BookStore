@@ -17,7 +17,7 @@ import org.hibernate.annotations.Where;
 
 @Data
 @Entity
-@Table(name = "shopping_cart")
+@Table(name = "shopping_carts")
 @SQLDelete(sql = "UPDATE shopping_cart SET is_deleted = true WHERE id=?")
 @Where(clause = "is_deleted=false")
 public class ShoppingCart {

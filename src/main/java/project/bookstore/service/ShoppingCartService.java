@@ -7,9 +7,9 @@ import project.bookstore.dto.shoppingcart.ShoppingCartResponseDto;
 public interface ShoppingCartService {
     ShoppingCartResponseDto getShoppingCart();
 
-    void addBooksToShoppingCart(CartItemRequestDto cartItemRequestDto);
+    void addCartItemToShoppingCart(CartItemRequestDto cartItemRequestDto);
 
-    void updateBookQuantityById(Long id, CartItemUpdateDto cartItemUpdateDto);
+    void updateCartItemQuantityById(Long id, CartItemUpdateDto cartItemUpdateDto);
 
-    void deleteBookById(Long id);
+    void deleteCartItemById(Long id);
 }
