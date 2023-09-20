@@ -1,4 +1,4 @@
-package project.bookstore.roles;
+package project.bookstore.enums;
 
 public enum RoleName {
     ROLE_ADMIN,

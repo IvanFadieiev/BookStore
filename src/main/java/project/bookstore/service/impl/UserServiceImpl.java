@@ -1,6 +1,6 @@
 package project.bookstore.service.impl;
 
-import static project.bookstore.roles.RoleName.ROLE_USER;
+import static project.bookstore.enums.RoleName.ROLE_USER;
 
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
