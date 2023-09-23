@@ -9,13 +9,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import project.bookstore.enums.Status;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Set;
 
 @Data
 @Entity
@@ -27,6 +30,8 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private User user;
     @Column(nullable = false)
     private Status status;
@@ -37,7 +42,9 @@ public class Order {
     @Column(nullable = false)
     private String shippingAddress;
     @OneToMany(mappedBy = "order")
-    private Set<OrderItems> orderItems;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Set<OrderItem> orderItems = new HashSet<>();
     @Column(nullable = false)
     private boolean isDeleted = false;
 }
