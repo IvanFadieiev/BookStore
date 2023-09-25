@@ -1,5 +1,6 @@
 package project.bookstore.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -41,7 +42,7 @@ public class Order {
     private LocalDateTime orderDate;
     @Column(nullable = false)
     private String shippingAddress;
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Set<OrderItem> orderItems = new HashSet<>();

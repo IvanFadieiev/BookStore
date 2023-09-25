@@ -18,6 +18,9 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
+                    foreignKeyName: fk_orders_users
+                    referencedTableName: users
+                    referencedColumnNames: id
               - column:
                   name: status
                   type: tinyint

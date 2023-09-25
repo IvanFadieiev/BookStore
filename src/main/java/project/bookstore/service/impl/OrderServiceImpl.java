@@ -39,7 +39,6 @@ public class OrderServiceImpl implements OrderService {
     public void createNewOrder(OrderRequestDto orderRequestDto) {
         Order filledOrder = fillOrder(orderRequestDto);
         orderRepository.save(filledOrder);
-        orderItemRepository.saveAll(filledOrder.getOrderItems());
     }
 
     @Override
