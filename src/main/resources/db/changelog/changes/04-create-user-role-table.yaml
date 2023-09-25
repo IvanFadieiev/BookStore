@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: create-user-role-table
-      author: ivan
+      author: ivan fadieiev
       changes:
         - createTable:
             tableName: user_role
