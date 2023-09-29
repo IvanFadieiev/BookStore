@@ -1,5 +1,5 @@
 
-![Banner](https://drive.google.com/file/d/146GcDy0lClzkGw253moTnKl-dRhI-Kp_/view?usp=drive_link)
+![Banner](banner.jpg)
 
 ### Introduction
 
@@ -67,4 +67,4 @@ As an authorized administrator you can:
         
 ### Postman requests collection
 
-[Link](https://github.com/IvanFadieiev/BookStore/blob/ae6aff52bc978ed04e2440122f6b1417f1cebcd4/BookStore.postman_collection.json)
+[Link](C:\Users\Ivan\IdeaProjects\BookStore\BookStore.postman_collection.json)
