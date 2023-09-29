@@ -56,7 +56,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         Map<String, Object> errorMap = new LinkedHashMap<>();
         errorMap.put("timestamp", LocalDateTime.now());
         errorMap.put("status", status);
-        errorMap.put("erros", errors);
+        errorMap.put("errors", errors);
         return errorMap;
     }
 }

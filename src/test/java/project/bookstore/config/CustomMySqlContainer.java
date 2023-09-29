@@ -9,6 +9,7 @@ public class CustomMySqlContainer extends MySQLContainer<CustomMySqlContainer> {
     private CustomMySqlContainer() {
         super(DB_IMAGE);
     }
+
     public static synchronized CustomMySqlContainer getInstance() {
         if (mySqlContainer == null) {
             mySqlContainer = new CustomMySqlContainer();
