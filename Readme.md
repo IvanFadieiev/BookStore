@@ -67,4 +67,4 @@ As an authorized administrator you can:
         
 ### Postman requests collection
 
-[Link](https://github.com/IvanFadieiev/BookStore/blob/9d3d73f928782a6ee2ab07aab3c8cd1d830b7607/BookStore.postman_collection.json
+[Link](https://github.com/IvanFadieiev/BookStore/blob/9d3d73f928782a6ee2ab07aab3c8cd1d830b7607/BookStore.postman_collection.json)
