@@ -1,5 +1,5 @@
 
-![BookStore.png](..%2F..%2FDownloads%2FBookStore.png)
+![Banner](https://drive.google.com/file/d/146GcDy0lClzkGw253moTnKl-dRhI-Kp_/view?usp=drive_link)
 
 ### Introduction
 
@@ -67,4 +67,4 @@ As an authorized administrator you can:
         
 ### Postman requests collection
 
-        BookStore.postman_collection.json
+[Link](https://github.com/IvanFadieiev/BookStore/blob/ae6aff52bc978ed04e2440122f6b1417f1cebcd4/BookStore.postman_collection.json)
