@@ -136,7 +136,8 @@ public class BookControllerTest {
     @Test
     @DisplayName("Verify update() method works")
     @Sql(scripts = {
-            "classpath:database/scripts/books/add-book-to-books-table.sql"
+            "classpath:database/scripts/books/add-book-to-books-table.sql",
+            "classpath:database/scripts/category/add-category-to-categories-table.sql",
     }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {
             "classpath:database/scripts/books/remove-book-from-books-table.sql"
