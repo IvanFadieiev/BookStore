@@ -37,7 +37,7 @@ public class BookRepositoryTest {
     @DisplayName("Verify findAllByCategoryId() method works")
     @Sql(scripts = {
             "classpath:database/scripts/books/clear-books-table.sql",
-            "classpath:database/scripts/category/remove-category-from-categories-table.sql",
+            "classpath:database/scripts/category/clear-categories-table.sql",
             "classpath:database/scripts/category/add-category-to-categories-table.sql",
             "classpath:database/scripts/category/add-book-category-to-book-categories-table.sql",
     }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
