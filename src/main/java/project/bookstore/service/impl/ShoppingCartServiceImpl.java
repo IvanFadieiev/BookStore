@@ -3,6 +3,8 @@ package project.bookstore.service.impl;
 import jakarta.transaction.Transactional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import project.bookstore.dto.shoppingcart.CartItemRequestDto;
 import project.bookstore.dto.shoppingcart.CartItemUpdateDto;
@@ -13,18 +15,17 @@ import project.bookstore.mapper.ShoppingCartMapper;
 import project.bookstore.model.Book;
 import project.bookstore.model.CartItem;
 import project.bookstore.model.ShoppingCart;
+import project.bookstore.model.User;
 import project.bookstore.repository.BookRepository;
 import project.bookstore.repository.CartItemsRepository;
 import project.bookstore.repository.ShoppingCartRepository;
 import project.bookstore.service.ShoppingCartService;
-import project.bookstore.service.UserService;
 
 @Service
 @RequiredArgsConstructor
 public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final ShoppingCartRepository shoppingCartRepository;
     private final ShoppingCartMapper shoppingCartMapper;
-    private final UserService userService;
     private final BookRepository bookRepository;
     private final CartItemsRepository cartItemsRepository;
     private final CartItemMapper cartItemMapper;
@@ -56,32 +57,52 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
+    @Transactional
     public void updateCartItemQuantityById(Long id, CartItemUpdateDto cartItemUpdateDto) {
         CartItem cartItem = cartItemsRepository.findById(id)
                 .orElseThrow(() ->
                         new EntityNotFoundException("CardItem with provided id: "
                                 + id + " doesn't exists"));
-        cartItem.setQuantity(cartItemUpdateDto.getQuantity());
-        cartItemsRepository.save(cartItem);
+        if (cartItem.getShoppingCart().equals(getCurrentShoppingCart())) {
+            cartItem.setQuantity(cartItemUpdateDto.getQuantity());
+            cartItemsRepository.save(cartItem);
+        } else {
+            throw new EntityNotFoundException("CardItem with provided id: "
+                    + id + " doesn't belong to current shopping cart");
+        }
     }
 
     @Override
     @Transactional
     public void deleteCartItemById(Long id) {
-        cartItemsRepository.findById(id)
+        CartItem cartItem = cartItemsRepository.findById(id)
                 .orElseThrow(() ->
                         new EntityNotFoundException("CardItem with provided id: "
                                 + id + " doesn't exists"));
-        cartItemsRepository.deleteById(id);
+        if (cartItem.getShoppingCart().equals(getCurrentShoppingCart())) {
+            cartItemsRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("CardItem with provided id: "
+                                + id + " doesn't belong to current shopping cart");
+        }
+    }
+
+    public void createNewShoppingCartForNewUser(User savedUser) {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setUser(savedUser);
+        shoppingCartRepository.save(shoppingCart);
     }
 
     private ShoppingCart getCurrentShoppingCart() {
+        Authentication authentication = SecurityContextHolder.getContext()
+                .getAuthentication();
+        User user = (User) authentication.getPrincipal();
         return shoppingCartRepository
-                .getShoppingCartByUserId(userService.getAuthentificatedUser().getId())
+                .getShoppingCartByUserId(user.getId())
                 .orElseThrow(()
                         -> new EntityNotFoundException("Shopping Cart with "
                         + "provided user's id: "
-                        + userService.getAuthentificatedUser().getId()
+                        + user.getId()
                         + "  doesn't exists"));
     }
 }

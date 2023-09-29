@@ -47,7 +47,7 @@ public class ShoppingCartController {
 
     @PutMapping("/cart-item/{id}")
     @PreAuthorize("hasRole('ROLE_USER')")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Update quantity of a cart item", description
             = "Update quantity of a cart item by provided id")
     public void updateCartItemQuantityById(@PathVariable Long id,
@@ -57,7 +57,7 @@ public class ShoppingCartController {
 
     @DeleteMapping("/cart-item/{id}")
     @PreAuthorize("hasRole('ROLE_USER')")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete a cart item by id", description
             = "Delete a cart item by provided id from shopping cart")
     public void deleteCartItemById(@PathVariable Long id) {
