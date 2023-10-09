@@ -20,7 +20,6 @@ import project.bookstore.repository.BookRepository;
 import project.bookstore.repository.CartItemsRepository;
 import project.bookstore.repository.ShoppingCartRepository;
 import project.bookstore.service.ShoppingCartService;
-import project.bookstore.service.UserService;
 
 @Service
 @RequiredArgsConstructor

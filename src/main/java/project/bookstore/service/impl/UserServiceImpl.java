@@ -9,7 +9,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import project.bookstore.dto.user.UserRegistrationRequestDto;
 import project.bookstore.dto.user.UserRegistrationResponseDto;
-import project.bookstore.exception.EntityNotFoundException;
 import project.bookstore.exception.RegistrationException;
 import project.bookstore.mapper.UserMapper;
 import project.bookstore.model.Role;
