@@ -9,7 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
-import project.bookstore.roles.RoleName;
+import project.bookstore.enums.RoleName;
 
 @Entity
 @Table(name = "roles")
