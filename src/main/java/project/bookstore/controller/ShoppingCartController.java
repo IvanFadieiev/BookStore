@@ -38,29 +38,29 @@ public class ShoppingCartController {
     @PostMapping
     @PreAuthorize("hasRole('ROLE_USER')")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    @Operation(summary = "Add books to shopping cart", description
-            = "Add books to shopping cart")
-    public void addBooksToShoppingCart(@RequestBody @Valid
+    @Operation(summary = "Add cart item to shopping cart", description
+            = "Add cart item to shopping cart")
+    public void addCartItemToShoppingCart(@RequestBody @Valid
                                        CartItemRequestDto cartItemRequestDto) {
-        shoppingCartService.addBooksToShoppingCart(cartItemRequestDto);
+        shoppingCartService.addCartItemToShoppingCart(cartItemRequestDto);
     }
 
     @PutMapping("/cart-item/{id}")
     @PreAuthorize("hasRole('ROLE_USER')")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    @Operation(summary = "Update quantity of a book", description
-            = "Update quantity of a book by provided id")
-    public void updateBookById(@PathVariable Long id,
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Update quantity of a cart item", description
+            = "Update quantity of a cart item by provided id")
+    public void updateCartItemQuantityById(@PathVariable Long id,
                                @RequestBody @Valid CartItemUpdateDto cartItemUpdateDto) {
-        shoppingCartService.updateBookQuantityById(id, cartItemUpdateDto);
+        shoppingCartService.updateCartItemQuantityById(id, cartItemUpdateDto);
     }
 
     @DeleteMapping("/cart-item/{id}")
     @PreAuthorize("hasRole('ROLE_USER')")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    @Operation(summary = "Delete a book by id", description
-            = "Delete a book by provided id from shopping cart")
-    public void deleteBookById(@PathVariable Long id) {
-        shoppingCartService.deleteBookById(id);
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Delete a cart item by id", description
+            = "Delete a cart item by provided id from shopping cart")
+    public void deleteCartItemById(@PathVariable Long id) {
+        shoppingCartService.deleteCartItemById(id);
     }
 }

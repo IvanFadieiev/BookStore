@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: create-cart-items-table
-      author: ivan
+      author: ivan fadieiev
       changes:
         - createTable:
             tableName: cart_items
@@ -18,11 +18,13 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
+                    foreignKeyName: fk_cart_item_shopping_cart_id
               - column:
                   name: book_id
                   type: bigint
                   constraints:
                     nullable: false
+                    foreignKeyName: fk_cart_item_book_id
               - column:
                   name: quantity
                   type: int

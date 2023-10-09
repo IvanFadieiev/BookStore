@@ -3,6 +3,8 @@ package project.bookstore.service.impl;
 import jakarta.transaction.Transactional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import project.bookstore.dto.shoppingcart.CartItemRequestDto;
 import project.bookstore.dto.shoppingcart.CartItemUpdateDto;
@@ -13,18 +15,17 @@ import project.bookstore.mapper.ShoppingCartMapper;
 import project.bookstore.model.Book;
 import project.bookstore.model.CartItem;
 import project.bookstore.model.ShoppingCart;
+import project.bookstore.model.User;
 import project.bookstore.repository.BookRepository;
 import project.bookstore.repository.CartItemsRepository;
 import project.bookstore.repository.ShoppingCartRepository;
 import project.bookstore.service.ShoppingCartService;
-import project.bookstore.service.UserService;
 
 @Service
 @RequiredArgsConstructor
 public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final ShoppingCartRepository shoppingCartRepository;
     private final ShoppingCartMapper shoppingCartMapper;
-    private final UserService userService;
     private final BookRepository bookRepository;
     private final CartItemsRepository cartItemsRepository;
     private final CartItemMapper cartItemMapper;
@@ -32,19 +33,21 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public ShoppingCartResponseDto getShoppingCart() {
         ShoppingCart shoppingCart = getCurrentShoppingCart();
-        ShoppingCartResponseDto dto = shoppingCartMapper.toDto(shoppingCart);
-        dto.setCartItems(cartItemsRepository
+        ShoppingCartResponseDto shoppingCartResponseDto = shoppingCartMapper.toDto(shoppingCart);
+        shoppingCartResponseDto.setCartItems(cartItemsRepository
                 .getCartItemsByShoppingCartId(shoppingCart.getId()).stream()
                 .map(cartItemMapper::toDto)
                 .collect(Collectors.toSet()));
-        return dto;
+        return shoppingCartResponseDto;
     }
 
     @Override
-    public void addBooksToShoppingCart(CartItemRequestDto cartItemRequestDto) {
+    public void addCartItemToShoppingCart(CartItemRequestDto cartItemRequestDto) {
         Book book = bookRepository.findById(cartItemRequestDto.getBookId())
                 .orElseThrow(()
-                        -> new EntityNotFoundException("Book with provided id doesn't exists"));
+                        -> new EntityNotFoundException("Book with provided id: "
+                        + cartItemRequestDto.getBookId()
+                        + " doesn't exists"));
         CartItem cartItem = new CartItem();
         ShoppingCart shoppingCart = getCurrentShoppingCart();
         cartItem.setBook(book);
@@ -54,28 +57,43 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public void updateBookQuantityById(Long id, CartItemUpdateDto cartItemUpdateDto) {
-        CartItem cartItem = cartItemsRepository.findCartItemById(id)
-                .orElseThrow(() ->
-                        new EntityNotFoundException("CardItem with provided id doesn't exists"));
+    @Transactional
+    public void updateCartItemQuantityById(Long id, CartItemUpdateDto cartItemUpdateDto) {
+        Long userId = getCurrentShoppingCart().getUser().getId();
+        CartItem cartItem = cartItemsRepository.getCartItemByIdAndUserId(id, userId)
+                .orElseThrow(() -> new EntityNotFoundException("CardItem with provided id: "
+                + id + " doesn't exists"));
         cartItem.setQuantity(cartItemUpdateDto.getQuantity());
         cartItemsRepository.save(cartItem);
     }
 
     @Override
     @Transactional
-    public void deleteBookById(Long id) {
-        cartItemsRepository.findCartItemById(id)
+    public void deleteCartItemById(Long id) {
+        Long userId = getCurrentShoppingCart().getUser().getId();
+        CartItem cartItem = cartItemsRepository.getCartItemByIdAndUserId(id, userId)
                 .orElseThrow(() ->
-                        new EntityNotFoundException("CardItem with provided id doesn't exists"));
-        cartItemsRepository.deleteCartItemById(id);
+                        new EntityNotFoundException("CardItem with provided id: "
+                                + id + " doesn't exists"));
+        cartItemsRepository.deleteById(cartItem.getId());
     }
 
-    public ShoppingCart getCurrentShoppingCart() {
+    public void createNewShoppingCartForNewUser(User savedUser) {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setUser(savedUser);
+        shoppingCartRepository.save(shoppingCart);
+    }
+
+    private ShoppingCart getCurrentShoppingCart() {
+        Authentication authentication = SecurityContextHolder.getContext()
+                .getAuthentication();
+        User user = (User) authentication.getPrincipal();
         return shoppingCartRepository
-                .getShoppingCartByUserId(userService.getAuthentificatedUser().getId())
+                .getShoppingCartByUserId(user.getId())
                 .orElseThrow(()
                         -> new EntityNotFoundException("Shopping Cart with "
-                        + "provided user's id doesn't exists"));
+                        + "provided user's id: "
+                        + user.getId()
+                        + "  doesn't exists"));
     }
 }
