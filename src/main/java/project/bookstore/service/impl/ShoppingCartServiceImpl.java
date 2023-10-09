@@ -20,6 +20,7 @@ import project.bookstore.repository.BookRepository;
 import project.bookstore.repository.CartItemsRepository;
 import project.bookstore.repository.ShoppingCartRepository;
 import project.bookstore.service.ShoppingCartService;
+import project.bookstore.service.UserService;
 
 @Service
 @RequiredArgsConstructor
@@ -33,12 +34,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public ShoppingCartResponseDto getShoppingCart() {
         ShoppingCart shoppingCart = getCurrentShoppingCart();
-        ShoppingCartResponseDto shoppingCartResponseDto = shoppingCartMapper.toDto(shoppingCart);
-        shoppingCartResponseDto.setCartItems(cartItemsRepository
+        ShoppingCartResponseDto dto = shoppingCartMapper.toDto(shoppingCart);
+        dto.setCartItems(cartItemsRepository
                 .getCartItemsByShoppingCartId(shoppingCart.getId()).stream()
                 .map(cartItemMapper::toDto)
                 .collect(Collectors.toSet()));
-        return shoppingCartResponseDto;
+        return dto;
     }
 
     @Override
@@ -56,13 +57,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         cartItemsRepository.save(cartItem);
     }
 
-    @Override
     @Transactional
     public void updateCartItemQuantityById(Long id, CartItemUpdateDto cartItemUpdateDto) {
         Long userId = getCurrentShoppingCart().getUser().getId();
         CartItem cartItem = cartItemsRepository.getCartItemByIdAndUserId(id, userId)
                 .orElseThrow(() -> new EntityNotFoundException("CardItem with provided id: "
-                + id + " doesn't exists"));
+                        + id + " doesn't exists"));
         cartItem.setQuantity(cartItemUpdateDto.getQuantity());
         cartItemsRepository.save(cartItem);
     }
@@ -78,6 +78,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         cartItemsRepository.deleteById(cartItem.getId());
     }
 
+    @Override
     public void createNewShoppingCartForNewUser(User savedUser) {
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setUser(savedUser);

@@ -4,10 +4,12 @@ import static project.bookstore.enums.RoleName.ROLE_USER;
 
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import project.bookstore.dto.user.UserRegistrationRequestDto;
 import project.bookstore.dto.user.UserRegistrationResponseDto;
+import project.bookstore.exception.EntityNotFoundException;
 import project.bookstore.exception.RegistrationException;
 import project.bookstore.mapper.UserMapper;
 import project.bookstore.model.Role;
@@ -39,5 +41,13 @@ public class UserServiceImpl implements UserService {
         User savedUser = userRepository.save(user);
         shoppingCartService.createNewShoppingCartForNewUser(savedUser);
         return userMapper.toDto(savedUser);
+    }
+
+    @Override
+    public User getAuthentificatedUser() {
+        return (User) SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getPrincipal();
     }
 }
