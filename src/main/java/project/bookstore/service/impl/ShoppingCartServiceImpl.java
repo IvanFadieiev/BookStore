@@ -59,32 +59,23 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     @Transactional
     public void updateCartItemQuantityById(Long id, CartItemUpdateDto cartItemUpdateDto) {
-        CartItem cartItem = cartItemsRepository.findById(id)
-                .orElseThrow(() ->
-                        new EntityNotFoundException("CardItem with provided id: "
-                                + id + " doesn't exists"));
-        if (cartItem.getShoppingCart().equals(getCurrentShoppingCart())) {
-            cartItem.setQuantity(cartItemUpdateDto.getQuantity());
-            cartItemsRepository.save(cartItem);
-        } else {
-            throw new EntityNotFoundException("CardItem with provided id: "
-                    + id + " doesn't belong to current shopping cart");
-        }
+        Long userId = getCurrentShoppingCart().getUser().getId();
+        CartItem cartItem = cartItemsRepository.getCartItemByIdAndUserId(id, userId)
+                .orElseThrow(() -> new EntityNotFoundException("CardItem with provided id: "
+                + id + " doesn't exists"));
+        cartItem.setQuantity(cartItemUpdateDto.getQuantity());
+        cartItemsRepository.save(cartItem);
     }
 
     @Override
     @Transactional
     public void deleteCartItemById(Long id) {
-        CartItem cartItem = cartItemsRepository.findById(id)
+        Long userId = getCurrentShoppingCart().getUser().getId();
+        CartItem cartItem = cartItemsRepository.getCartItemByIdAndUserId(id, userId)
                 .orElseThrow(() ->
                         new EntityNotFoundException("CardItem with provided id: "
                                 + id + " doesn't exists"));
-        if (cartItem.getShoppingCart().equals(getCurrentShoppingCart())) {
-            cartItemsRepository.deleteById(id);
-        } else {
-            throw new EntityNotFoundException("CardItem with provided id: "
-                                + id + " doesn't belong to current shopping cart");
-        }
+        cartItemsRepository.deleteById(cartItem.getId());
     }
 
     public void createNewShoppingCartForNewUser(User savedUser) {

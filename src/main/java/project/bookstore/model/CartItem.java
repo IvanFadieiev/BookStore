@@ -31,6 +31,8 @@ public class CartItem {
     @EqualsAndHashCode.Exclude
     private ShoppingCart shoppingCart;
     @OneToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Book book;
     @Column(nullable = false)
     private Integer quantity;
