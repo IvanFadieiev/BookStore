@@ -1,11 +1,14 @@
 package project.bookstore.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.testcontainers.shaded.org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.math.BigDecimal;
@@ -85,9 +88,9 @@ public class BookControllerTest {
                 .andReturn();
         BookDto actual = objectMapper.readValue(result.getResponse()
                 .getContentAsString(), BookDto.class);
-        Assertions.assertNotNull(actual);
-        Assertions.assertNotNull(actual.getId());
-        EqualsBuilder.reflectionEquals(actual, BOOK_REQUEST_DTO, "id");
+        assertNotNull(actual);
+        assertNotNull(actual.getId());
+        reflectionEquals(actual, BOOK_REQUEST_DTO, "id");
     }
 
     @WithMockUser(username = "alice", roles = {"USER"})
@@ -107,8 +110,8 @@ public class BookControllerTest {
         BookDto bookDtoFromDB = objectMapper.readValue(result.getResponse()
                 .getContentAsString(), BookDto.class);
 
-        Assertions.assertNotNull(bookDtoFromDB);
-        EqualsBuilder.reflectionEquals(BOOK_REQUEST_DTO, bookDtoFromDB,"id");
+        assertNotNull(bookDtoFromDB);
+        reflectionEquals(BOOK_REQUEST_DTO, bookDtoFromDB,"id");
     }
 
     @WithMockUser(username = "alice", roles = {"USER"})
@@ -128,8 +131,8 @@ public class BookControllerTest {
         BookDto[] bookDtoArray = objectMapper.readValue(result
                 .getResponse()
                 .getContentAsByteArray(), BookDto[].class);
-        Assertions.assertNotNull(bookDtoArray);
-        Assertions.assertEquals(EXPECTED_LENGTH, bookDtoArray.length);
+        assertNotNull(bookDtoArray);
+        assertEquals(EXPECTED_LENGTH, bookDtoArray.length);
     }
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
@@ -155,8 +158,8 @@ public class BookControllerTest {
         BookDto updatedBookDto = objectMapper.readValue(result
                 .getResponse().getContentAsString(), BookDto.class);
 
-        Assertions.assertNotNull(updatedBookDto);
-        Assertions.assertEquals(UPDATED_PRICE, updatedBookDto.getPrice());
+        assertNotNull(updatedBookDto);
+        assertEquals(UPDATED_PRICE, updatedBookDto.getPrice());
     }
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
