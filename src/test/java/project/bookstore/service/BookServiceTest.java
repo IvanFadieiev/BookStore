@@ -54,7 +54,7 @@ public class BookServiceTest {
                 .setPrice(BigDecimal.valueOf(1000))
                 .setCategoriesId(Set.of(1L));
 
-    private static final BookDtoWithoutCategoryIds bookDtoWithoutCategoryIds
+    private static final BookDtoWithoutCategoryIds BOOK_DTO_WITHOUT_CATEGORY_IDS
             = new BookDtoWithoutCategoryIds("Harry Potter",
             "J.K.Rolling",
             "0-2936-9647-0",
@@ -139,11 +139,11 @@ public class BookServiceTest {
     public void findAllByCategoryId_ValidCategoryId_ReturnsBookList() {
         when(bookRepository.findAllByCategoryId(VALID_ID)).thenReturn(BOOKS);
         when(bookMapper.toDtoWithoutCategories(BOOK))
-                .thenReturn(bookDtoWithoutCategoryIds);
+                .thenReturn(BOOK_DTO_WITHOUT_CATEGORY_IDS);
 
         List<BookDtoWithoutCategoryIds> bookDtoList
                 = bookService.findAllByCategoryId(VALID_ID);
 
-        assertThat(bookDtoList.get(ZERO_INDEX)).isEqualTo(bookDtoWithoutCategoryIds);
+        assertThat(bookDtoList.get(ZERO_INDEX)).isEqualTo(BOOK_DTO_WITHOUT_CATEGORY_IDS);
     }
 }
