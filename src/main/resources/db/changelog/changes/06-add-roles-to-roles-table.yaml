@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: add-roles-to-roles-table
-      author: ivan
+      author: ivan fadieiev
       changes:
         - insert:
             tableName: roles

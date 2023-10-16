@@ -3,13 +3,16 @@ package project.bookstore.service;
 import project.bookstore.dto.shoppingcart.CartItemRequestDto;
 import project.bookstore.dto.shoppingcart.CartItemUpdateDto;
 import project.bookstore.dto.shoppingcart.ShoppingCartResponseDto;
+import project.bookstore.model.User;
 
 public interface ShoppingCartService {
     ShoppingCartResponseDto getShoppingCart();
 
-    void addBooksToShoppingCart(CartItemRequestDto cartItemRequestDto);
+    void addCartItemToShoppingCart(CartItemRequestDto cartItemRequestDto);
 
-    void updateBookQuantityById(Long id, CartItemUpdateDto cartItemUpdateDto);
+    void updateCartItemQuantityById(Long id, CartItemUpdateDto cartItemUpdateDto);
 
-    void deleteBookById(Long id);
+    void deleteCartItemById(Long id);
+
+    void createNewShoppingCartForNewUser(User user);
 }
