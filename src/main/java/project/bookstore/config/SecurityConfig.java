@@ -24,6 +24,9 @@ import project.bookstore.security.JwtAuthentificationFilter;
 @EnableMethodSecurity
 @EnableWebSecurity
 public class SecurityConfig {
+    private static final String AUTHENTICATION_ENDPOINT = "/auth/**";
+    private static final String SWAGGER_UI_ENDPOINT = "/swagger-ui/**";
+    private static final String SWAGGER_API_ENDPOINT = "/v3/api-docs/**";
     private final UserDetailsService userDetailsService;
     private final JwtAuthentificationFilter jwtAuthentificationFilter;
 
@@ -38,7 +41,9 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         auth -> auth
-                                .requestMatchers("/auth/**")
+                                .requestMatchers(AUTHENTICATION_ENDPOINT,
+                                                SWAGGER_UI_ENDPOINT,
+                                                SWAGGER_API_ENDPOINT)
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()

@@ -4,6 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 import java.util.Optional;
+
+import project.bookstore.dto.category.CategoryDto;
+import project.bookstore.dto.category.CategoryRequestDto;
+import project.bookstore.exception.EntityNotFoundException;
+import project.bookstore.mapper.CategoryMapper;
+import project.bookstore.model.Category;
+import project.bookstore.repository.CategoryRepository;
+import project.bookstore.service.impl.CategoryServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,13 +24,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import project.bookstore.dto.category.CategoryDto;
-import project.bookstore.dto.category.CategoryRequestDto;
-import project.bookstore.exception.EntityNotFoundException;
-import project.bookstore.mapper.CategoryMapper;
-import project.bookstore.model.Category;
-import project.bookstore.repository.CategoryRepository;
-import project.bookstore.service.impl.CategoryServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class CategoryServiceTest {
