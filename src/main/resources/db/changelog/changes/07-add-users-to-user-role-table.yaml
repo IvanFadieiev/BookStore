@@ -1,23 +1,23 @@
 databaseChangeLog:
   - changeSet:
       id: add-users-to-user-role-table
-      author: ivan
+      author: ivan fadieiev
       changes:
         - insert:
             tableName: user_role
             columns:
               - column:
                   name: user_id
-                  value: 1
+                  valueComputed: (SELECT id FROM users WHERE email = 'aliceuser@mail.com')
               - column:
                   name: role_id
-                  value: 2
+                  valueComputed: (SELECT id FROM users WHERE email = 'admin@mail.com')
         - insert:
             tableName: user_role
             columns:
               - column:
                   name: user_id
-                  value: 2
+                  valueComputed: (SELECT id FROM users WHERE email = 'admin@mail.com')
               - column:
                   name: role_id
-                  value: 1
+                  valueComputed: (SELECT id FROM users WHERE email = 'aliceuser@mail.com')

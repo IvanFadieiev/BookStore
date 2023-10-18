@@ -1,21 +1,20 @@
 package project.bookstore.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.testcontainers.shaded.org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 
-import project.bookstore.dto.book.BookDto;
-import project.bookstore.dto.category.CategoryDto;
-import project.bookstore.dto.category.CategoryRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.sql.Connection;
 import javax.sql.DataSource;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,7 +29,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import org.testcontainers.shaded.org.apache.commons.lang3.builder.EqualsBuilder;
+import project.bookstore.dto.book.BookDto;
+import project.bookstore.dto.category.CategoryDto;
+import project.bookstore.dto.category.CategoryRequestDto;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CategoryControllerTest {
@@ -80,7 +81,7 @@ public class CategoryControllerTest {
         CategoryDto expectedCategoryDto = objectMapper.readValue(result
                 .getResponse().getContentAsString(), CategoryDto.class);
 
-        EqualsBuilder.reflectionEquals(expectedCategoryDto, CATEGORY_DTO, "id");
+        reflectionEquals(expectedCategoryDto, CATEGORY_DTO, "id");
     }
 
     @WithMockUser(username = "alice", roles = {"USER"})
@@ -101,8 +102,8 @@ public class CategoryControllerTest {
                 .getResponse()
                 .getContentAsByteArray(), CategoryDto[].class);
 
-        Assertions.assertNotNull(categoryDtoArray);
-        Assertions.assertEquals(EXPECTED_LIST_SIZE, categoryDtoArray.length);
+        assertNotNull(categoryDtoArray);
+        assertEquals(EXPECTED_LIST_SIZE, categoryDtoArray.length);
     }
 
     @WithMockUser(username = "alice", roles = {"USER"})
@@ -129,8 +130,8 @@ public class CategoryControllerTest {
                 .getResponse()
                 .getContentAsByteArray(), BookDto[].class);
 
-        Assertions.assertNotNull(expectedBookDto);
-        Assertions.assertEquals(expectedBookDto.length, EXPECTED_BOOK_DTO_LIST_SIZE);
+        assertNotNull(expectedBookDto);
+        assertEquals(expectedBookDto.length, EXPECTED_BOOK_DTO_LIST_SIZE);
     }
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
@@ -153,9 +154,9 @@ public class CategoryControllerTest {
                 .getResponse()
                 .getContentAsString(), CategoryDto.class);
 
-        Assertions.assertNotNull(expectedDto);
-        Assertions.assertNotNull(expectedDto.getId());
-        EqualsBuilder.reflectionEquals(expectedDto, CATEGORY_DTO, "id");
+        assertNotNull(expectedDto);
+        assertNotNull(expectedDto.getId());
+        reflectionEquals(expectedDto, CATEGORY_DTO, "id");
     }
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
@@ -178,8 +179,8 @@ public class CategoryControllerTest {
                 .getResponse()
                 .getContentAsString(), CategoryDto.class);
 
-        Assertions.assertNotNull(updatedDto);
-        Assertions.assertEquals(updatedDto.getDescription(), UPDATED_DESCRIPTION);
+        assertNotNull(updatedDto);
+        assertEquals(updatedDto.getDescription(), UPDATED_DESCRIPTION);
     }
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
