@@ -69,22 +69,41 @@ As an authorized administrator you can:
 
 ## Installation
 
-1. To run this app you need to install Docker. You can download it from official [website](https://www.docker.com/get-started/)
+1. To run this app you need :
+        a. Java 17. You can download it from official [website](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
+        b. MySQL. You can download it from official [website](https://www.mysql.com/downloads/)
+        c. Docker. You can download it from official [website](https://www.docker.com/get-started/)
+        d. Maven. You can download if from official [website](https://maven.apache.org/download.cgi)
 
 2. Download this repository by executing this command 
         ```
-        git clone https://github.com/IvanFadieiev/BookStore
+   git clone https://github.com/IvanFadieiev/BookStore
         ```
 3. Use Maven to build project
         ```
-        mvn build install
+   mvn build install
         ```
 4. Finally, use Docker to run this app in container
         ```
-        docker-compose build
+   docker-compose build
         ```
         ```
-        docker-compose up
+   docker-compose up
+        ```
+
+Other way to run this app without Docker :
+1. Download this repository by executing this command
+        ```
+   git clone https://github.com/IvanFadieiev/BookStore
+        ```
+2. Use Maven to build project :
+        ```
+   mvn build install
+        ```
+3. Set up connection for your local database in application.properties file
+4. Run this command after :
+        ```
+   mvn spring-boot:run
         ```
         
 ## Postman requests collection
@@ -93,4 +112,4 @@ As an authorized administrator you can:
 
 ## Contributing
 
-If you have any ideas for contributing to this project, I ready for conversation on [GitHub](https://github.com/IvanFadieiev) or [Email](ivanfadieiev@gmail.com) 
+If you have any ideas for contributing to this project, I am ready for conversation on [GitHub](https://github.com/IvanFadieiev) or [Email](ivanfadieiev@gmail.com) 
