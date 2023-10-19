@@ -69,11 +69,11 @@ As an authorized administrator you can:
 
 ## Installation
 
-1. To run this app you need :
-        a. Java 17. You can download it from official [website](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
-        b. MySQL. You can download it from official [website](https://www.mysql.com/downloads/)
-        c. Docker. You can download it from official [website](https://www.docker.com/get-started/)
-        d. Maven. You can download if from official [website](https://maven.apache.org/download.cgi)
+1. To run this app you need : <br />
+        a. Java 17. You can download it from official [website](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) <br />
+        b. MySQL. You can download it from official [website](https://www.mysql.com/downloads/) <br />
+        c. Docker. You can download it from official [website](https://www.docker.com/get-started/) <br />
+        d. Maven. You can download if from official [website](https://maven.apache.org/download.cgi) <br />
 
 2. Download this repository by executing this command 
         ```
