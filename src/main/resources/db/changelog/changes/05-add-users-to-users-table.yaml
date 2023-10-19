@@ -11,7 +11,7 @@ databaseChangeLog:
                   value: aliceuser@mail.com
               - column:
                   name: password
-                  value: 11111111
+                  value: $2a$12$LgaaZaNc/Nvy4u3qyZ4xlOknzKk8khuJU86y7eDJis41xa8DobY.u
               - column:
                   name: first_name
                   value: alice
