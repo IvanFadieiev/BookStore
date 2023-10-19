@@ -3,6 +3,7 @@ package project.bookstore.repository;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.testcontainers.shaded.org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -26,6 +27,7 @@ public class ShoppingCartRepositoryTest {
     private ShoppingCartRepository shoppingCartRepository;
 
     @Test
+    @DisplayName("Verify getShoppingCartByUserId() method works")
     @Sql(scripts = {
             "classpath:database/scripts/users/clear-users-table.sql",
             "classpath:database/scripts/users/add-user-to-users-table.sql",

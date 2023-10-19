@@ -3,6 +3,7 @@ package project.bookstore.repository;
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -32,6 +33,7 @@ public class CartItemRepositoryTest {
     private CartItemsRepository cartItemsRepository;
 
     @Test
+    @DisplayName("Verify getCartItemsByShoppingCartId() method works")
     @Sql(scripts = {
             "classpath:database/scripts/books/clear-books-table.sql",
             "classpath:database/scripts/books/add-book-to-books-table.sql",
@@ -50,6 +52,7 @@ public class CartItemRepositoryTest {
     }
 
     @Test
+    @DisplayName("Verify getCartItemByIdAndUserId() method works")
     @Sql(scripts = {
             "classpath:database/scripts/books/clear-books-table.sql",
             "classpath:database/scripts/users/clear-users-table.sql",

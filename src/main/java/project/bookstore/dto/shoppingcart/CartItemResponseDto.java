@@ -1,8 +1,10 @@
 package project.bookstore.dto.shoppingcart;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 @Data
+@Accessors(chain = true)
 public class CartItemResponseDto {
     private Long id;
     private Long bookId;
