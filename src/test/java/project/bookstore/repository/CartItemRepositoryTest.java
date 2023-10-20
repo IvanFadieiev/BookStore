@@ -3,6 +3,9 @@ package project.bookstore.repository;
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.math.BigDecimal;
+import java.util.Optional;
+import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +14,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
 import project.bookstore.model.Book;
 import project.bookstore.model.CartItem;
-import java.math.BigDecimal;
-import java.util.Optional;
-import java.util.Set;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -48,7 +48,7 @@ public class CartItemRepositoryTest {
     public void getCartItemsByShoppingCartId_ValidShoppingCartId_ReturnsCartItemsSet() {
         Set<CartItem> items = cartItemsRepository
                 .getCartItemsByShoppingCartId(VALID_SHOPPING_CART_ID);
-       reflectionEquals(BOOK, items.iterator().next().getBook(), "id");
+        reflectionEquals(BOOK, items.iterator().next().getBook(), "id");
     }
 
     @Test

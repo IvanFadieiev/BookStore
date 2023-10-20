@@ -1,5 +1,14 @@
 package project.bookstore.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.math.BigDecimal;
+import java.util.Optional;
+import java.util.Set;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,14 +34,6 @@ import project.bookstore.repository.BookRepository;
 import project.bookstore.repository.CartItemsRepository;
 import project.bookstore.repository.ShoppingCartRepository;
 import project.bookstore.service.impl.ShoppingCartServiceImpl;
-
-import java.math.BigDecimal;
-import java.util.Optional;
-import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ShoppingCartServiceTest {
@@ -191,7 +192,8 @@ public class ShoppingCartServiceTest {
         when(bookRepository.findById(INVALID_ID)).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(EntityNotFoundException.class,
-                () -> shoppingCartService.addCartItemToShoppingCart(CART_ITEM_REQUEST_DTO_INVALID_BOOK_ID));
+                () -> shoppingCartService
+                        .addCartItemToShoppingCart(CART_ITEM_REQUEST_DTO_INVALID_BOOK_ID));
 
         String actualMessage = exception.getMessage();
         String expected = "Book with provided id: " + INVALID_ID + " doesn't exists";
