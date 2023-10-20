@@ -9,6 +9,16 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+
+import project.bookstore.dto.book.BookDto;
+import project.bookstore.dto.book.BookDtoWithoutCategoryIds;
+import project.bookstore.dto.book.BookRequestDto;
+import project.bookstore.exception.EntityNotFoundException;
+import project.bookstore.mapper.BookMapper;
+import project.bookstore.model.Book;
+import project.bookstore.model.Category;
+import project.bookstore.repository.BookRepository;
+import project.bookstore.service.impl.BookServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,15 +29,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import project.bookstore.dto.book.BookDto;
-import project.bookstore.dto.book.BookDtoWithoutCategoryIds;
-import project.bookstore.dto.book.BookRequestDto;
-import project.bookstore.exception.EntityNotFoundException;
-import project.bookstore.mapper.BookMapper;
-import project.bookstore.model.Book;
-import project.bookstore.model.Category;
-import project.bookstore.repository.BookRepository;
-import project.bookstore.service.impl.BookServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class BookServiceTest {
