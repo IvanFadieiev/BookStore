@@ -107,6 +107,7 @@ public class ShoppingCartControllerTest {
     @DisplayName("Verify getShoppingCart() method works")
     @Sql(scripts = {
             CLEAR_USER_TABLE,
+            CLEAR_BOOKS_TABLE,
             ADD_USER,
             ADD_BOOK,
             ADD_SHOPPING_CART,
