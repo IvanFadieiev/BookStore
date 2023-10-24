@@ -50,6 +50,23 @@ public class CategoryControllerTest {
     private static final CategoryDto UPDATED_CATEGORY_DTO = new CategoryDto()
             .setName("Horror")
             .setDescription("Updated description");
+    private static final String ADD_CATEGORY
+            = "classpath:database/scripts/category/add-category-to-categories-table.sql";
+    private static final String REMOVE_CATEGORY
+            = "classpath:database/scripts/category/remove-category-from-categories-table.sql";
+    private static final String ADD_THREE_CATEGORIES
+            = "classpath:database/scripts/category/add-three-categories-to-categories-table.sql";
+    private static final String CLEAR_CATEGORIES
+            = "classpath:database/scripts/category/clear-categories-table.sql";
+    private static final String CLEAR_BOOKS_TABLE
+            = "classpath:database/scripts/books/clear-books-table.sql";
+    private static final String CLEAR_BOOK_CATEGORIES_TABLE
+            = "classpath:database/scripts/category/clear-book-categories-table.sql";
+    private static final String ADD_BOOK
+            = "classpath:database/scripts/books/add-book-to-books-table.sql";
+    private static final String ADD_BOOK_CATEGORY
+            = "classpath:database/scripts/category/add-book-category-to-book-categories-table.sql";
+
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -68,10 +85,10 @@ public class CategoryControllerTest {
     @Test
     @DisplayName("Verify getCategoryById() method works")
     @Sql(scripts = {
-            "classpath:database/scripts/category/add-category-to-categories-table.sql"
+            ADD_CATEGORY
     }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {
-            "classpath:database/scripts/category/remove-category-from-categories-table.sql"
+            REMOVE_CATEGORY
     }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void getCategoryById_ValidId_ReturnsExpectedCategoryDto() throws Exception {
         MvcResult result = mockMvc.perform(get("/categories/" + VALID_ID)
@@ -88,10 +105,10 @@ public class CategoryControllerTest {
     @Test
     @DisplayName("Verify getAll() method works")
     @Sql(scripts = {
-            "classpath:database/scripts/category/add-three-categories-to-categories-table.sql"
+            ADD_THREE_CATEGORIES
     }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {
-            "classpath:database/scripts/category/clear-categories-table.sql"
+            CLEAR_CATEGORIES
     }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void getAll_RequestToGetAllCategories_ReturnsCategoryDtoList() throws Exception {
         MvcResult result = mockMvc.perform(get("/categories")
@@ -110,16 +127,11 @@ public class CategoryControllerTest {
     @Test
     @DisplayName("Verify getBooksByCategoryId() method works")
     @Sql(scripts = {
-            "classpath:database/scripts/books/clear-books-table.sql",
-            "classpath:database/scripts/category/clear-book-categories-table.sql",
-            "classpath:database/scripts/books/add-book-to-books-table.sql",
-            "classpath:database/scripts/category/add-category-to-categories-table.sql",
-            "classpath:database/scripts/category/add-book-category-to-book-categories-table.sql"
+            CLEAR_BOOKS_TABLE, CLEAR_BOOK_CATEGORIES_TABLE,
+            ADD_BOOK, ADD_CATEGORY,ADD_BOOK_CATEGORY
     }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {
-            "classpath:database/scripts/books/clear-books-table.sql",
-            "classpath:database/scripts/category/clear-categories-table.sql",
-            "classpath:database/scripts/category/clear-book-categories-table.sql"
+            CLEAR_BOOKS_TABLE, CLEAR_CATEGORIES, CLEAR_BOOK_CATEGORIES_TABLE
     }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void getBooksByCategoryId_RequestToGetBookDtoList_ReturnsBookDtoList() throws Exception {
         MvcResult result = mockMvc.perform(get("/categories/" + VALID_ID + "/books")
@@ -138,10 +150,10 @@ public class CategoryControllerTest {
     @Test
     @DisplayName("Verify create() method works")
     @Sql(scripts = {
-            "classpath:database/scripts/category/add-category-to-categories-table.sql"
+            ADD_CATEGORY
     }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {
-            "classpath:database/scripts/category/remove-category-from-categories-table.sql"
+            REMOVE_CATEGORY
     }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void create_validCategoryRequestDto_ReturnsCategoryDto() throws Exception {
         MvcResult result = mockMvc.perform(post("/categories")
@@ -163,10 +175,10 @@ public class CategoryControllerTest {
     @Test
     @DisplayName("Verify delete() method works")
     @Sql(scripts = {
-            "classpath:database/scripts/category/add-category-to-categories-table.sql"
+            ADD_CATEGORY
     }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {
-            "classpath:database/scripts/category/remove-category-from-categories-table.sql"
+            REMOVE_CATEGORY
     }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void update_validRequestDto_ReturnsUpdatedCategoryDto() throws Exception {
         MvcResult result = mockMvc.perform(put("/categories/" + VALID_ID)
@@ -187,10 +199,10 @@ public class CategoryControllerTest {
     @Test
     @DisplayName("Verify delete() method works")
     @Sql(scripts = {
-            "classpath:database/scripts/category/add-category-to-categories-table.sql"
+            ADD_CATEGORY
     }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {
-            "classpath:database/scripts/category/remove-category-from-categories-table.sql"
+            REMOVE_CATEGORY
     }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void delete_validId_ReturnsStatusAccepted() throws Exception {
         mockMvc.perform(delete("/categories/" + VALID_ID))

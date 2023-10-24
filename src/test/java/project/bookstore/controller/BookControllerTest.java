@@ -56,6 +56,18 @@ public class BookControllerTest {
     private static final Long VALID_ID = 1L;
     private static final int EXPECTED_LENGTH = 3;
     private static final BigDecimal UPDATED_PRICE = BigDecimal.valueOf(1100);
+    private static final String REMOVE_BOOK
+            = "classpath:database/scripts/books/remove-book-from-books-table.sql";
+    private static final String ADD_BOOK
+            = "classpath:database/scripts/books/add-book-to-books-table.sql";
+    private static final String ADD_THREE_BOOK
+            = "classpath:database/scripts/books/add-three-books-to-books-table.sql";
+    private static final String CLEAR_BOOKS_TABLE
+            = "classpath:database/scripts/books/clear-books-table.sql";
+    private static final String CLEAR_CATEGORIES_TABLE
+            = "classpath:database/scripts/category/clear-categories-table.sql";
+    private static final String ADD_CATEGORY
+            = "classpath:database/scripts/category/add-category-to-categories-table.sql";
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -74,7 +86,7 @@ public class BookControllerTest {
     @Test
     @DisplayName("Verify createBook() method works")
     @Sql(scripts = {
-            "classpath:database/scripts/books/remove-book-from-books-table.sql"
+            REMOVE_BOOK
     }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void createBook_ValidRequestDto_ReturnsBookDto() throws Exception {
         String jsonRequest = objectMapper.writeValueAsString(BOOK_REQUEST_DTO);
@@ -95,10 +107,10 @@ public class BookControllerTest {
     @Test
     @DisplayName("Verify getBookById() method works")
     @Sql(scripts = {
-            "classpath:database/scripts/books/add-book-to-books-table.sql"
+            ADD_BOOK
     }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {
-            "classpath:database/scripts/books/remove-book-from-books-table.sql"
+            REMOVE_BOOK
     }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void getBookById_ValidId_ReturnsExpectedBook() throws Exception {
         MvcResult result = mockMvc.perform(get("/books/" + VALID_ID)
@@ -116,10 +128,10 @@ public class BookControllerTest {
     @Test
     @DisplayName("Verify getAll() method works")
     @Sql(scripts = {
-            "classpath:database/scripts/books/add-three-books-to-books-table.sql"
+            ADD_THREE_BOOK
     }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {
-            "classpath:database/scripts/books/clear-books-table.sql"
+            CLEAR_BOOKS_TABLE
     }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void getAll_getAllBooksRequest_ReturnBookDtoList() throws Exception {
         MvcResult result = mockMvc.perform(get("/books")
@@ -137,12 +149,11 @@ public class BookControllerTest {
     @Test
     @DisplayName("Verify update() method works")
     @Sql(scripts = {
-            "classpath:database/scripts/category/clear-categories-table.sql",
-            "classpath:database/scripts/books/add-book-to-books-table.sql",
-            "classpath:database/scripts/category/add-category-to-categories-table.sql"
+            CLEAR_CATEGORIES_TABLE, ADD_BOOK,
+            ADD_CATEGORY
     }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {
-            "classpath:database/scripts/books/remove-book-from-books-table.sql"
+            REMOVE_BOOK
     }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void update_updateExistingBook_ReturnUpdatedBookDto() throws Exception {
         String jsonRequest = objectMapper.writeValueAsString(BOOK_UPDATE_REQUEST_DTO);
@@ -164,10 +175,10 @@ public class BookControllerTest {
     @Test
     @DisplayName("Verify delete() method works")
     @Sql(scripts = {
-            "classpath:database/scripts/books/add-book-to-books-table.sql"
+            ADD_BOOK
     }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {
-            "classpath:database/scripts/books/remove-book-from-books-table.sql"
+            REMOVE_BOOK
     }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void delete_deleteExistingBook_ReturnStatusAccepted() throws Exception {
         mockMvc.perform(delete("/books/" + VALID_ID))
