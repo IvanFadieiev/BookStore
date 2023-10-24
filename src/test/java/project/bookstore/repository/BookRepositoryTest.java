@@ -28,6 +28,16 @@ public class BookRepositoryTest {
 
     private static final Long CATEGORY_ID = 1L;
     private static final int FIRST_ELEMENT = 0;
+    private static final String CLEAR_BOOKS_TABLE
+            = "classpath:database/scripts/books/clear-books-table.sql";
+    private static final String CLEAR_CATEGORIES_TABLE
+            = "classpath:database/scripts/category/clear-categories-table.sql";
+    private static final String CLEAR_BOOK_CATEGORIES_TABLE
+            = "classpath:database/scripts/category/clear-book-categories-table.sql";
+    private static final String ADD_CATEGORY
+            = "classpath:database/scripts/category/add-category-to-categories-table.sql";
+    private static final String ADD_BOOK_CATEGORY
+            = "classpath:database/scripts/category/add-book-category-to-book-categories-table.sql";
 
     @Autowired
     private BookRepository bookRepository;
@@ -35,16 +45,13 @@ public class BookRepositoryTest {
     @Test
     @DisplayName("Verify findAllByCategoryId() method works")
     @Sql(scripts = {
-            "classpath:database/scripts/books/clear-books-table.sql",
-            "classpath:database/scripts/category/clear-categories-table.sql",
-            "classpath:database/scripts/category/clear-book-categories-table.sql",
-            "classpath:database/scripts/category/add-category-to-categories-table.sql",
-            "classpath:database/scripts/category/add-book-category-to-book-categories-table.sql",
+            CLEAR_BOOKS_TABLE, CLEAR_CATEGORIES_TABLE,
+            CLEAR_BOOK_CATEGORIES_TABLE, ADD_CATEGORY,
+            ADD_BOOK_CATEGORY
     }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {
-            "classpath:database/scripts/books/clear-books-table.sql",
-            "classpath:database/scripts/category/clear-categories-table.sql",
-            "classpath:database/scripts/category/clear-book-categories-table.sql"
+            CLEAR_BOOKS_TABLE, CLEAR_CATEGORIES_TABLE,
+            CLEAR_BOOK_CATEGORIES_TABLE
     }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void findAllByCategoryId_ValidCategoryId_ReturnsBookList() {
         bookRepository.save(BOOK);

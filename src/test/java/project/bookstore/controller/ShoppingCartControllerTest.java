@@ -106,18 +106,13 @@ public class ShoppingCartControllerTest {
     @Test
     @DisplayName("Verify getShoppingCart() method works")
     @Sql(scripts = {
-            CLEAR_USER_TABLE,
-            CLEAR_BOOKS_TABLE,
-            ADD_USER,
-            ADD_BOOK,
-            ADD_SHOPPING_CART,
+            CLEAR_USER_TABLE, CLEAR_BOOKS_TABLE,
+            ADD_USER, ADD_BOOK, ADD_SHOPPING_CART,
             ADD_CART_ITEM
     }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {
-            CLEAR_USER_TABLE,
-            CLEAR_SHOPPING_CART_TABLE,
-            CLEAR_CART_ITEM_TABLE,
-            CLEAR_BOOKS_TABLE
+            CLEAR_USER_TABLE, CLEAR_SHOPPING_CART_TABLE,
+            CLEAR_CART_ITEM_TABLE, CLEAR_BOOKS_TABLE
     }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void getShoppingCart_ReturnsShoppingCartDto() throws Exception {
         MvcResult result = mockMvc.perform(get("/cart")
@@ -136,16 +131,12 @@ public class ShoppingCartControllerTest {
     @Test
     @DisplayName("Verify addCartItemToShoppingCart() method works")
     @Sql(scripts = {
-            CLEAR_USER_TABLE,
-            ADD_USER,
-            ADD_BOOK,
-            ADD_SHOPPING_CART
+            CLEAR_USER_TABLE, ADD_USER,
+            ADD_BOOK, ADD_SHOPPING_CART
     }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {
-            CLEAR_USER_TABLE,
-            CLEAR_SHOPPING_CART_TABLE,
-            CLEAR_CART_ITEM_TABLE,
-            CLEAR_BOOKS_TABLE
+            CLEAR_USER_TABLE, CLEAR_SHOPPING_CART_TABLE,
+            CLEAR_CART_ITEM_TABLE, CLEAR_BOOKS_TABLE
     }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void addCartItemToShoppingCart_ValidRequestDto_ResponseStatusAccepted()
             throws Exception {
@@ -160,14 +151,11 @@ public class ShoppingCartControllerTest {
     @Test
     @DisplayName("Verify updateCartItemQuantityById() method works")
     @Sql(scripts = {
-            CLEAR_USER_TABLE,
-            ADD_USER,
-            ADD_SHOPPING_CART,
-            ADD_CART_ITEM
+            CLEAR_USER_TABLE, ADD_USER,
+            ADD_SHOPPING_CART, ADD_CART_ITEM
     }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {
-            CLEAR_USER_TABLE,
-            CLEAR_SHOPPING_CART_TABLE,
+            CLEAR_USER_TABLE, CLEAR_SHOPPING_CART_TABLE,
             CLEAR_CART_ITEM_TABLE
     }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void updateCartItemQuantityById_ValidRequestDtoAndID_ResponseStatusNoContent()
@@ -183,14 +171,11 @@ public class ShoppingCartControllerTest {
     @Test
     @DisplayName("Verify deleteCartItemById() method works")
     @Sql(scripts = {
-            CLEAR_USER_TABLE,
-            ADD_USER,
-            ADD_SHOPPING_CART,
-            ADD_CART_ITEM
+            CLEAR_USER_TABLE, ADD_USER,
+            ADD_SHOPPING_CART, ADD_CART_ITEM
     }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {
-            CLEAR_USER_TABLE,
-            CLEAR_SHOPPING_CART_TABLE,
+            CLEAR_USER_TABLE, CLEAR_SHOPPING_CART_TABLE,
             CLEAR_CART_ITEM_TABLE
     }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void deleteCartItemById_ValidID_ResponseStatusNoContent()

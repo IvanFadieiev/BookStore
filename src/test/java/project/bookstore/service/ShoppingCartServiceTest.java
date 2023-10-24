@@ -129,21 +129,16 @@ public class ShoppingCartServiceTest {
         ShoppingCartResponseDto shoppingCart = shoppingCartService.getShoppingCart();
 
         assertEquals(shoppingCart, SHOPPING_CART_RESPONSE_DTO);
-        verify(shoppingCartMapper, Mockito.times(1))
-                .toDto(SHOPPING_CART);
-        verify(AUTHENTICATION, Mockito.times(1))
-                .getPrincipal();
-        verify(shoppingCartRepository, Mockito.times(1))
-                .getShoppingCartByUserId(VALID_ID);
-        verify(cartItemsRepository, Mockito.times(1))
-                .getCartItemsByShoppingCartId(VALID_ID);
-        verify(cartItemMapper, Mockito.times(1))
-                .toDto(CART_ITEM);
+        verify(shoppingCartMapper).toDto(SHOPPING_CART);
+        verify(AUTHENTICATION).getPrincipal();
+        verify(shoppingCartRepository).getShoppingCartByUserId(VALID_ID);
+        verify(cartItemsRepository).getCartItemsByShoppingCartId(VALID_ID);
+        verify(cartItemMapper).toDto(CART_ITEM);
     }
 
     @Test
-    @DisplayName("Verify getShoppingCart() throws exception")
-    public void getShoppingCart_ThrowsException() {
+    @DisplayName("Verify getShoppingCart() throws exception with invalid user ID")
+    public void getShoppingCart_InvalidUserId_ThrowsException() {
         SecurityContextHolder.getContext().setAuthentication(AUTHENTICATION);
         when(AUTHENTICATION.getPrincipal()).thenReturn(IN_VALID_USER);
         when(shoppingCartRepository.getShoppingCartByUserId(INVALID_ID))
@@ -158,15 +153,13 @@ public class ShoppingCartServiceTest {
                 + "  doesn't exists";
 
         assertEquals(actual, expected);
-        verify(AUTHENTICATION, Mockito.times(4))
-                .getPrincipal();
-        verify(shoppingCartRepository, Mockito.times(1))
-                .getShoppingCartByUserId(INVALID_ID);
+        verify(AUTHENTICATION, Mockito.times(4)).getPrincipal();
+        verify(shoppingCartRepository).getShoppingCartByUserId(INVALID_ID);
     }
 
     @Test
     @DisplayName("Verify addCartItemToShoppingCart() method works")
-    public void addCartItemToShoppingCart_ReturnsResponseStatusAccepted() {
+    public void addCartItemToShoppingCart_AddingSuccessfully() {
         when(bookRepository.findById(VALID_ID)).thenReturn(Optional.ofNullable(BOOK));
         SecurityContextHolder.getContext().setAuthentication(AUTHENTICATION);
         when(AUTHENTICATION.getPrincipal()).thenReturn(VALID_USER);
@@ -176,19 +169,15 @@ public class ShoppingCartServiceTest {
 
         shoppingCartService.addCartItemToShoppingCart(CART_ITEM_REQUEST_DTO);
 
-        verify(bookRepository, Mockito.times(1))
-                .findById(VALID_ID);
-        verify(AUTHENTICATION, Mockito.times(5))
-                .getPrincipal();
-        verify(shoppingCartRepository, Mockito.times(1))
-                .getShoppingCartByUserId(VALID_ID);
-        verify(cartItemsRepository, Mockito.times(1))
-                .save(CART_ITEM_WITHOUT_ID);
+        verify(bookRepository).findById(VALID_ID);
+        verify(AUTHENTICATION, Mockito.times(5)).getPrincipal();
+        verify(shoppingCartRepository).getShoppingCartByUserId(VALID_ID);
+        verify(cartItemsRepository).save(CART_ITEM_WITHOUT_ID);
     }
 
     @Test
     @DisplayName("Verify addCartItemToShoppingCart() throws exception with invalid id")
-    public void addCartItemToShoppingCart_InValidBookId_ThrowsException() {
+    public void addCartItemToShoppingCart_InvalidBookId_ThrowsException() {
         when(bookRepository.findById(INVALID_ID)).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(EntityNotFoundException.class,
@@ -199,13 +188,12 @@ public class ShoppingCartServiceTest {
         String expected = "Book with provided id: " + INVALID_ID + " doesn't exists";
 
         assertEquals(actualMessage, expected);
-        verify(bookRepository, Mockito.times(1))
-                .findById(INVALID_ID);
+        verify(bookRepository).findById(INVALID_ID);
     }
 
     @Test
     @DisplayName("Verify updateCartItemQuantityById() method works")
-    public void updateCartItemQuantityById_ValidIdAndValidDto_ReturnsResponseNoContent() {
+    public void updateCartItemQuantityById_ValidIdAndValidDto_UpdateSuccessfully() {
         SecurityContextHolder.getContext().setAuthentication(AUTHENTICATION);
         when(AUTHENTICATION.getPrincipal()).thenReturn(VALID_USER);
         when(shoppingCartRepository.getShoppingCartByUserId(VALID_ID))
@@ -216,17 +204,14 @@ public class ShoppingCartServiceTest {
 
         shoppingCartService.updateCartItemQuantityById(VALID_ID, CART_ITEM_UPDATE_DTO);
 
-        verify(AUTHENTICATION, Mockito.times(3))
-                .getPrincipal();
-        verify(cartItemsRepository, Mockito.times(1))
-                .getCartItemByIdAndUserId(VALID_ID, VALID_ID);
-        verify(cartItemsRepository, Mockito.times(1))
-                .save(CART_ITEM);
+        verify(AUTHENTICATION, Mockito.times(6)).getPrincipal();
+        verify(cartItemsRepository).getCartItemByIdAndUserId(VALID_ID, VALID_ID);
+        verify(cartItemsRepository).save(CART_ITEM);
     }
 
     @Test
     @DisplayName("Verify updateCartItemQuantityById() throws exception with invalid id")
-    public void updateCartItemQuantityById_InValidId_ThrowsException() {
+    public void updateCartItemQuantityById_InvalidId_ThrowsException() {
         SecurityContextHolder.getContext().setAuthentication(AUTHENTICATION);
         when(AUTHENTICATION.getPrincipal()).thenReturn(VALID_USER);
         when(shoppingCartRepository.getShoppingCartByUserId(VALID_ID))
@@ -242,17 +227,14 @@ public class ShoppingCartServiceTest {
         String expected = "CardItem with provided id: " + INVALID_ID + " doesn't exists";
 
         assertEquals(actualMessage, expected);
-        verify(AUTHENTICATION, Mockito.times(2))
-                .getPrincipal();
-        verify(shoppingCartRepository, Mockito.times(1))
-                .getShoppingCartByUserId(VALID_ID);
-        verify(cartItemsRepository, Mockito.times(1))
-                .getCartItemByIdAndUserId(INVALID_ID, VALID_ID);
+        verify(AUTHENTICATION, Mockito.times(3)).getPrincipal();
+        verify(shoppingCartRepository).getShoppingCartByUserId(VALID_ID);
+        verify(cartItemsRepository).getCartItemByIdAndUserId(INVALID_ID, VALID_ID);
     }
 
     @Test
     @DisplayName("Verify deleteCartItemById() method works")
-    public void deleteCartItemById_ValidIdAndValidDto_ReturnsResponseNoContent() {
+    public void deleteCartItemById_ValidIdAndValidDto_DeleteSuccessfully() {
         SecurityContextHolder.getContext().setAuthentication(AUTHENTICATION);
         when(AUTHENTICATION.getPrincipal()).thenReturn(VALID_USER);
         when(shoppingCartRepository.getShoppingCartByUserId(VALID_ID))
@@ -262,15 +244,13 @@ public class ShoppingCartServiceTest {
 
         shoppingCartService.deleteCartItemById(VALID_ID);
 
-        verify(AUTHENTICATION, Mockito.times(7))
-                .getPrincipal();
-        verify(cartItemsRepository, Mockito.times(1))
-                .getCartItemByIdAndUserId(VALID_ID, VALID_ID);
+        verify(AUTHENTICATION, Mockito.times(2)).getPrincipal();
+        verify(cartItemsRepository).getCartItemByIdAndUserId(VALID_ID, VALID_ID);
     }
 
     @Test
     @DisplayName("Verify deleteCartItemById() throws exception with invalid id")
-    public void deleteCartItemById_InValidId_ThrowsException() {
+    public void deleteCartItemById_InvalidId_ThrowsException() {
         SecurityContextHolder.getContext().setAuthentication(AUTHENTICATION);
         when(AUTHENTICATION.getPrincipal()).thenReturn(VALID_USER);
         when(shoppingCartRepository.getShoppingCartByUserId(VALID_ID))
@@ -285,12 +265,10 @@ public class ShoppingCartServiceTest {
         String expected = "CardItem with provided id: " + INVALID_ID + " doesn't exists";
 
         assertEquals(actualMessage, expected);
-        verify(AUTHENTICATION, Mockito.times(6))
+        verify(AUTHENTICATION, Mockito.times(7))
                 .getPrincipal();
-        verify(shoppingCartRepository, Mockito.times(1))
-                .getShoppingCartByUserId(VALID_ID);
-        verify(cartItemsRepository, Mockito.times(1))
-                .getCartItemByIdAndUserId(INVALID_ID, VALID_ID);
+        verify(shoppingCartRepository).getShoppingCartByUserId(VALID_ID);
+        verify(cartItemsRepository).getCartItemByIdAndUserId(INVALID_ID, VALID_ID);
     }
 
     @Test
@@ -301,8 +279,7 @@ public class ShoppingCartServiceTest {
 
         shoppingCartService.createNewShoppingCartForNewUser(VALID_USER);
 
-        verify(shoppingCartRepository, Mockito.times(1))
-                .save(SHOPPING_CART_WITHOUT_ID);
+        verify(shoppingCartRepository).save(SHOPPING_CART_WITHOUT_ID);
     }
 }
 

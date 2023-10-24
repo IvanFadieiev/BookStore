@@ -22,6 +22,15 @@ public class ShoppingCartRepositoryTest {
             .setFirstName("Bob")
             .setLastName("Johnson")
             .setShippingAddress("test");
+    private static final String CLEAR_USER_TABLE
+            = "classpath:database/scripts/users/clear-users-table.sql";
+    private static final String ADD_USER
+            = "classpath:database/scripts/users/add-user-to-users-table.sql";
+    private static final String ADD_SHOPPING_CART
+            = "classpath:database/scripts/shoppingcart/"
+            + "add-shopping-cart-to-shopping-cart-table.sql";
+    private static final String CLEAR_SHOPPING_CART_TABLE
+            = "classpath:database/scripts/shoppingcart/clear-shopping-cart-table.sql";
 
     @Autowired
     private ShoppingCartRepository shoppingCartRepository;
@@ -29,13 +38,10 @@ public class ShoppingCartRepositoryTest {
     @Test
     @DisplayName("Verify getShoppingCartByUserId() method works")
     @Sql(scripts = {
-            "classpath:database/scripts/users/clear-users-table.sql",
-            "classpath:database/scripts/users/add-user-to-users-table.sql",
-            "classpath:database/scripts/shoppingcart/add-shopping-cart-to-shopping-cart-table.sql"
+            CLEAR_USER_TABLE, ADD_USER, ADD_SHOPPING_CART
     }, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(scripts = {
-            "classpath:database/scripts/users/clear-users-table.sql",
-            "classpath:database/scripts/shoppingcart/clear-shopping-cart-table.sql"
+            CLEAR_USER_TABLE, CLEAR_SHOPPING_CART_TABLE
     }, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void getShoppingCartByUserId_ValidUserId_ReturnsShoppingCart() {
         Optional<ShoppingCart> shoppingCartByUserId
